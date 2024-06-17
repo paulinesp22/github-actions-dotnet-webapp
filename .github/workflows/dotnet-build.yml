@@ -1,0 +1,27 @@
+name: Atividade Modulo 4
+
+on: #quando e como a ação e criada
+    push:
+        branches:
+            - '*'
+    pull_request:
+        branches:
+            - '*'
+    schedule:
+        - cron: '0 0 * * *'
+
+jobs: #trabalhos e etapas
+  build:
+    runs-on: ubuntu-latest
+    name: build
+    
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+      - name: Restore dependencies
+        run: dotnet restore **/*.csproj
+      - name: Build
+        run: dotnet build **/*.csproj --no-restore
